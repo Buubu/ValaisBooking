@@ -1,0 +1,171 @@
+﻿@model Web.ViewModels.ConfirmationVM
+
+<!-- Page du formulaire de confirmation de la réservation -->
+@{
+    ViewBag.Title = "Confirmation";
+}
+
+
+<div class="panel panel-default" style="margin-top:20px">
+
+    <!-- Création du titre -->
+    <div class="panel panel-heading" style="background-color:#7B0304">
+        <h1 style="color:white">Confirmez votre réservation</h1>
+    </div>
+    <div class="panel panel-body">
+
+        <!-- Création d'un formulaire, afin de récupérer les données personnelles de l'utilisateur -->
+        <form action="@Url.Action("Receipt", "Reservation")" method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+
+                        <!-- Création d'une colonne pour les détails du séjour -->
+                        <div class="col-md-12" style="background-color:#950404">
+                            <h2 style="color:white">Détails du séjour</h2>
+                        </div>
+                    </div>
+                    <div class="container" style="font-size:18px; margin-top:16px">
+
+                        <!-- Affichage des dates de séjour selon le modèle -->
+                        <text style="font-weight:bold">Arrivée :</text> @Convert.ToDateTime(Model.DateStart.ToString()).ToString("dd MMMM yyyy") <br />
+                        <text style="font-weight:bold">Départ :</text> @Convert.ToDateTime(Model.DateEnd.ToString()).ToString("dd MMMM yyyy") <br />
+                        <text style="font-weight:bold">Durée du séjour : </text>
+
+                        <!-- Un test est effectué afin d'accorder correctement le mot "nuit" -->
+                        @if (Model.Duration == 1)
+                        {
+                            @Model.Duration <text>nuit</text><br /><br />
+                        }
+                        else
+                        {
+                            @Model.Duration <text>nuits</text><br /><br />
+                        }
+
+                        <!-- Affichage des détails de la réservation -->
+                        <text style="font-weight:bold">Vous avez sélectionné :</text><br />
+                        Hôtel @Model.Name à @Model.Location<br />
+
+                        <!-- Création d'une liste, avec un nouvel élément à chaque chambre réservée -->
+                        <ul>
+                            @foreach (var room in Model.Rooms)
+                            {
+                                <li>
+                                    <text style="font-style:italic">
+                                        1x Chambre numéro @room.Number
+
+                                        <!-- Création d'un input caché afin de récupérer les identifiants des chambres dans le formulaire -->
+                                        <input type="hidden" name="rooms_list" value="@room.IdRoom" />
+
+                                        <!-- Test permettant d'afficher le bon type de chambre -->
+                                        @if (room.Type == 1)
+                                        {
+                                            <text> (chambre simple) - </text>
+                                        }
+                                        else
+                                        {
+                                            <text> (chambre double) - </text>
+                                        }
+
+                                        <!-- Test permettant d'afficher un prix augmenté, en cas d'occupation des chambres supérieure à 70% -->
+                                        @if (Session["increase"].ToString() == "true")
+                                        {
+                                            <text>Prix : @((room.Price * Model.Duration) * 120 / 100)</text>
+                                        }
+                                        else
+                                        {
+                                            <text>Prix : @(room.Price * Model.Duration)</text>
+                                        }
+                                    </text>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <br /><br />
+                    <div class="row">
+                        <div class="col-md-7"></div>
+                        <div class="col-md-5">
+                            <text style="font-size:18px">
+
+                                <!-- Affichage du prix total du séjour -->
+                                <text style="font-weight:bold">Prix total du séjour</text><br />
+
+                                <!-- A nouveau, test sur l'occupation afin d'afficher le prix total augmenté, si nécessaire -->
+                                <!-- Le prix est également récupéré dans le formulaire, par le biais d'un autre input caché -->
+                                @if (Session["increase"].ToString() == "true")
+                                {
+                                    <text>Prix : @((Model.TotalPrice * Model.Duration) * 120 / 100)</text>
+                                    <input type="hidden" name="totalPrice" value="@((Model.TotalPrice * Model.Duration) * 120 / 100)" />
+                                }
+                                else
+                                {
+                                    <text>CHF @(Model.TotalPrice * Model.Duration)</text>
+                                    <input type="hidden" name="totalPrice" value="@(Model.TotalPrice * Model.Duration)">
+                                }
+                            </text>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <div class="row">
+
+                        <!-- Création d'une colonne pour les données personnelles de l'utilisateur-->
+                        <div class="col-md-12" style="background-color:#950404">
+                            <h2 style="color:white">Saisissez vos coordonnées</h2>
+                        </div>
+                    </div>
+
+                    <!-- Création d'un input pour le choix du genre de la personne, ce dernier est requis -->
+                    <div class="container" style="margin-top:16px">
+                        <label class="radio-inline" style="font-size:18px"><input type="radio" name="gender" value="Madame" required>Madame</label>
+                        <label class="radio-inline" style="font-size:18px"><input type="radio" name="gender" value="Monsieur">Monsieur</label>
+                    </div>
+                    <br />
+
+                    <!-- Création de deux inputs, pour le prénom et le nom, ce sont deux champs requis également -->
+                    <!-- De plus, un test de saisie est effectué : l'utilisateur ne peut pas saisir de chiffres ou de caractères spécieux (input.textonly.js)-->
+                    <div class="form-group" style="margin-top:16px">
+                        <label for="firstname" style="font-size:18px">Prénom :</label>
+                        <input type="text" class="form-control" name="firstname" onkeypress="return textOnly(event);" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname" style="font-size:18px">Nom :</label>
+                        <input type="text" class="form-control" name="lastname" onkeypress="return textOnly(event);" required />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <!-- Création d'un bouton permettant d'annuler la réservation, ouvre une fenêtre de type modal -->
+                <button type="button" class="btn btn-default pull-left" data-toggle="modal" data-target="#leaveModal" style="color:red; font-weight:bold; font-size:14px">&times; <text style="color:black">Annulez votre réservation</text></button>
+
+                <!-- Création du modal de confirmation -->
+                <div id="leaveModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" style="color:red">&times;</button>
+                                <h3 class="modal-title">Êtes-vous sûr(e) de bien vouloir quitter cette page ?</h3>
+                            </div>
+                            <div class="modal-body">
+                                <p>Toutes vos informations de recherche seront perdues.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" style="color:red; font-weight:bold" onclick="location.href='@Url.Action("Index", "Home")'">&times; <text style="color:black">Quittez cette page</text></button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Annulez</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Création du bouton de confirmation, valide le formulaire -->
+                <button class="btn btn-primary pull-right" type="submit" style="background-color:#7B0304; border-color:#7B0304">Validez votre réservation</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Ajout de l'utilisation du script pour faire fonctionner la vérification des inputs -->
+@Scripts.Render("~/Scripts/input.textonly.js")

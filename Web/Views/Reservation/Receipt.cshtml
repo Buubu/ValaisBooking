@@ -1,0 +1,70 @@
+﻿@model Web.ViewModels.ReservationVM
+
+<!-- Page de la confirmation de la réservation en ligne -->
+@{
+    ViewBag.Title = "Quittance";
+}
+
+
+<div class="row">
+
+    <!-- Création de colonnes afin de ne pas trop "étaler" l'encadré de la quittance -->
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="panel panel-default" style="margin-top:20px">
+
+            <!-- Création du titre -->
+            <div class="panel panel-heading" style="background-color:#7B0304">
+                <h1 style="color:white">Quittance de la réservation</h1>
+            </div>
+
+            <!-- Création du contenu de la quittance -->
+            <div class="panel panel-body" style="font-size:18px; text-align:justify">
+
+                <!-- Test sur le genre sélectionné par l'utilisateur afin d'afficher le bon accord -->
+                <text>
+                    @if (Model.Gender == "Madame")
+                    {
+                        <text>Chère </text>
+                    }
+                    else
+                    {
+                        <text>Cher </text>
+                    }
+
+                    @Model.Gender  @Model.ClientFirstname @Model.ClientLastname,
+                </text><br /><br />
+
+                <text>Nous vous remercions de la confiance que vous nous accordez en visitant notre site internet et en 
+                recourant à nos services pour réserver votre séjour !</text><br /><br />
+
+                <text>Nous vous saurions gré de bien vouloir noter ce numéro quelque part. Il s'agit du numéro de votre réservation :</text><br /><br />
+
+                <!-- Création d'une nouvelle ligne afin de changer la mise en forme pour l'affichage du numéro de la réservation -->
+                <div class="row" style="text-align:center">
+                    <text style="font-weight:bold; color:#006dcc; font-size:24px">Réservation numéro @Model.IdReservation</text>
+                </div>
+                <br />
+
+                <text>Ce numéro vous servira de référence lors d'une éventuelle prise de contact avec nos services. N'hésitez pas à nous 
+                contacter si vous souhaitez des renseignements supplémentaires. Il vous sera également utile si, en cas d'empêchement, 
+                vous souhaitez pouvoir annuler votre réservation par le biais de notre site internet.</text><br /><br />
+
+                <text>Nous vous souhaitons, @Model.Gender @Model.ClientFirstname @Model.ClientLastname, un agréable séjour en Valais !</text><br /><br /><br />
+
+                <!-- Création d'une nouvelle ligne afin d'afficher la signature avec une nouvelle mise en forme (alignée à droite) -->
+                <div class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4">
+                        <text>L'équipe Valais Booking</text>
+                    </div>           
+                </div>
+                <br />
+
+                <!-- Bouton de confirmation, retourne sur la page d'accueil -->
+                <button class="btn btn-primary pull-right" type="button" style="background-color:#7B0304; border-color:#7B0304" onclick="location.href='@Url.Action("Index", "Home")'">C'est noté !</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>

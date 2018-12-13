@@ -1,0 +1,132 @@
+﻿
+<!-- Page du formulaire de suppression d'une réservation -->
+@{
+    ViewBag.Title = "Annulation";
+}
+
+
+<!-- Création de plusieurs colonnes, afin de ne pas créer un encadré trop "étalé" -->
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+
+        <!-- Création d'un panel qui contiendra tous les contenus -->
+        <div class="panel panel-default" style="margin-top:20px">
+            <div class="panel panel-heading" style="background-color:#7B0304">
+                <h1 style="color:white">Souhaitez-vous annuler votre réservation ?</h1>
+            </div>
+            <div class="panel panel-body">
+
+                <!-- Cette page contient un formulaire qui envoie les informations au controller pour la suppression -->
+                <form action="@Url.Action("Removal", "Reservation")" method="post">
+                    <div class="row">
+
+                        <!-- Dans la partie de gauche, l'utilisateur peut lire un message informatif concernant la suppression de sa réservation -->
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12" style="background-color:#950404">
+                                    <h2 style="color:white">Message informatif</h2>
+                                </div>
+                            </div>
+                            <div style="font-size:18px; margin-top:16px; text-align:justify">
+                                <text>Chère cliente, cher client,</text><br /><br />
+                                <text>Par le biais de cette interface, il vous est possible d'annuler l'une de vos réservations, 
+                                dans le cas où vous rencontreriez un empêchement de dernière minute.</text><br /><br />
+                                <text>Nous tenons à vous informer que le processus d'annulation est totalement gratuit 
+                                et ne vous engendrera aucuns frais supplémentaires.</text><br /><br />
+                                <text>Il vous suffit simplement d'indiquer vos informations personnelles (attention aux fautes d'orthographe) 
+                                et le numéro de votre réservation.</text><br /><br />
+                                <text>Nous espérons toutefois vous revoir prochainement pour un nouveau séjour en Valais !</text><br /><br /><br />
+
+                                <div class="row">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
+                                        <text>L'équipe Valais Booking</text>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- La partie de droite concerne le formulaire à compléter -->
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12" style="background-color:#950404">
+                                    <h2 style="color:white">Informations personnelles</h2>
+                                </div>
+                            </div>
+
+                            <!-- Les deux champs (prénom et nom) fonctionnent avec un script (input.textonly.js) -->
+                            <!-- Ce script permet de bloquer la saisie de certains caractères -->
+                            <div class="form-group" style="margin-top:16px">
+                                <label for="firstname" style="font-size:18px">Prénom :</label>
+                                <input type="text" class="form-control" name="firstname" onkeypress="return textOnly(event);" required />
+                            </div>
+                            <div class="form-group" style="margin-top:24px">
+                                <label for="lastname" style="font-size:18px">Nom :</label>
+                                <input type="text" class="form-control" name="lastname" onkeypress="return textOnly(event);" required />
+                            </div>
+
+                            <!-- Le formulaire contient ensuite un compteur permettant de noter le numéro de la réservation -->
+                            <div class="row" style="margin-top:48px">
+                                <div class="col-md-7">
+                                    <text style="font-size:18px; font-weight:bold">Numéro de réservation : </text>
+                                </div>
+                                <div class="col-md-5">
+
+                                    <!-- Ce compteur fonctionne à l'aide d'un script (reservation.number.js)-->
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-danger btn-number" data-type="minus" data-field="number">
+                                                <span class="glyphicon glyphicon-minus"></span>
+                                            </button>
+                                        </span>
+                                        <input type="text" name="number" class="form-control input-number" value="1" min="1" max="99999" style="text-align:center">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="number">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                        </span>
+                                    </div> 
+                                </div>
+                            </div>
+
+                            <!-- Ajout d'un bouton qui ouvre un modal de confirmation de la suppression -->
+                            <div class="row" style="margin-top:48px">
+                                <button type="button" class="btn btn-primary pull-right" style="background-color:#7B0304; border-color:#7B0304" data-toggle="modal" data-target="#cancelModal">Annulez votre réservation</button>
+                            </div>
+
+                            <!-- Modal de confirmation -->
+                            <div id="cancelModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" style="color:red">&times;</button>
+                                            <h3 class="modal-title">Êtes-vous sûr(e) de bien vouloir annuler votre réservation ?</h3>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Votre réservation sera supprimée définitivement de nos registres.</p>
+                                        </div>
+
+                                        <!-- Le modal dispose de deux boutons, l'un pour annuler l'action, il renvoie l'utilisateur sur la page d'accueil -->
+                                        <!-- L'autre bouton valide l'action d'annulation, il s'agit du submit du formulaire -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default pull-left" onclick="location.href='@Url.Action("Index", "Home")'">Annulez</button>
+                                            <button type="submit" class="btn btn-default" style="color:red; font-weight:bold">&times; <text style="color:black">Supprimez votre réservation</text></button>                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+
+<!-- Ajout de l'utilisation du script pour faire fonctionner la vérification des inputs -->
+@Scripts.Render("~/Scripts/input.textonly.js")
+<!-- Ajout de l'utilisation du script pour l'input du numéro de la réservation -->
+@Scripts.Render("~/Scripts/reservation.number.js")

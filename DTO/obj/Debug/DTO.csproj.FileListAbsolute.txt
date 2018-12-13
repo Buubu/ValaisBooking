@@ -1,0 +1,6 @@
+C:\Users\uadmin\source\repos\Bubu_Project\DTO\bin\Debug\DTO.dll
+C:\Users\uadmin\source\repos\Bubu_Project\DTO\bin\Debug\DTO.pdb
+C:\Users\uadmin\source\repos\Bubu_Project\DTO\obj\Debug\DTO.csprojResolveAssemblyReference.cache
+C:\Users\uadmin\source\repos\Bubu_Project\DTO\obj\Debug\DTO.csproj.CoreCompileInputs.cache
+C:\Users\uadmin\source\repos\Bubu_Project\DTO\obj\Debug\DTO.dll
+C:\Users\uadmin\source\repos\Bubu_Project\DTO\obj\Debug\DTO.pdb

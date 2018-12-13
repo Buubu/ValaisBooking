@@ -1,0 +1,10 @@
+C:\Users\uadmin\source\repos\Bubu_Project\BLL\bin\Debug\BLL.dll
+C:\Users\uadmin\source\repos\Bubu_Project\BLL\bin\Debug\BLL.pdb
+C:\Users\uadmin\source\repos\Bubu_Project\BLL\bin\Debug\DAL.dll
+C:\Users\uadmin\source\repos\Bubu_Project\BLL\bin\Debug\DTO.dll
+C:\Users\uadmin\source\repos\Bubu_Project\BLL\bin\Debug\DAL.pdb
+C:\Users\uadmin\source\repos\Bubu_Project\BLL\bin\Debug\DTO.pdb
+C:\Users\uadmin\source\repos\Bubu_Project\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+C:\Users\uadmin\source\repos\Bubu_Project\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
+C:\Users\uadmin\source\repos\Bubu_Project\BLL\obj\Debug\BLL.dll
+C:\Users\uadmin\source\repos\Bubu_Project\BLL\obj\Debug\BLL.pdb

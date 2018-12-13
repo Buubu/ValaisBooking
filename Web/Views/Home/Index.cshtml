@@ -1,0 +1,207 @@
+﻿@model IEnumerable<Web.ViewModels.ListHotelsVM>
+
+<!-- Page d'accueil de l'application -->
+@{
+    ViewBag.Title = "Page d'accueil";
+}
+
+
+<!-- Panel créé pour stocker l'image bannière -->
+<div class="panel panel-default">
+    <div class="panel-body" style="max-height:350px">
+        <img class="img-responsive" src="~/Images/Band.jpg" />
+    </div>
+</div>
+
+<!-- Création de l'encadré de la recherche -->
+<div class="panel panel-default">
+    <div class="panel panel-heading" style="background-color:#7B0304">
+        <h1 style="color:white">Où voulez-vous partir ?</h1>
+    </div>
+
+    <!-- Création du formulaire en ligne, avec la mention d'où envoyer les données -->
+    <div class="panel-body">
+        <form class="form-inline" action="@Url.Action("Research", "Room")" method="post">
+
+            <!-- Bloc du choix de la destination, à sélectionner dans une liste -->
+            <div class="form-group">
+                <label for="destination" style="margin-bottom:5px">Lieu : </label>
+                <select name="location" class="form-control" id="destination" style="margin-bottom:5px" required>
+                    <option>Brig</option>
+                    <option>Martigny</option>
+                    <option>Sion</option>
+                </select>
+            </div>
+
+            <!-- Bloc du check-in et du check-out - les dates sont à sélectionner dans un calendrier (calendar.js) -->
+            <div class="form-group">
+                <label class="control-label" for="checkIn" style="margin-left:10px; margin-bottom:5px">Du : </label>
+                <div class="input-group" style="margin-bottom:5px">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    <input name="checkIn" id="checkIn" type="date" class="form-control" onblur="duration()" placeholder="Sélectionnez une date..." required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="checkOut" style="margin-left:10px; margin-bottom:5px">Au : </label>
+                <div class="input-group" style="margin-bottom:5px">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    <input name="checkOut" id="checkOut" type="date" class="form-control" onblur="duration()" placeholder="Sélectionnez une date..." required>
+                </div>
+            </div>
+
+            <!-- Choix du nombre de personnes -->
+            <div class="form-group">
+                <label class="control-label" for="persons" style="margin-left:10px; margin-bottom:5px">Personnes : </label>
+                <select name="numberPersons" id="persons" class="form-control" style="margin-bottom:5px" required>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>10+</option>
+                </select>
+            </div>
+
+            <!-- Compteur du nombre de nuits (nights.js) -->
+            <div class="form-group pull-right" style="margin-top:7px">
+                <label><span class="glyphicon glyphicon-time"></span> <text id="nights">0</text> nuits</label>
+            </div>
+            <br />
+
+            <!-- Bouton de la recherche avancée -->
+            <button type="button" class="btn btn-link pull-right" data-toggle="collapse" data-target="#advanced" style="color:#7B0304">Recherche avancée...</button>
+            <br /><br />
+
+            <!-- Bloc de la recherche avancée (les étoiles sont gérées par le script stars.js) -->
+            <div class="collapse" id="advanced">
+
+                <!-- Partie de la catégorie minimale -->
+                <div class="form-inline">
+                    <label>Catégorie minimale : </label> <text id="stars" class="stars"></text>
+                    <text><span id="count">0</span> étoile-s</text>
+                    <input type="hidden" name="category" id="category" value="" />
+                </div>
+
+                <!-- Partie comprenant toutes les checkboxes -->
+                <div class="form-inline">
+                    <label>Caractéristiques supplémentaires : </label>
+                    <div class="checkbox">
+                        <label><input name="wifi" type="checkbox" value="wifi" /> Wi-Fi disponible</label>
+                    </div>
+                    <div class="checkbox" style="margin-left:10px">
+                        <label><input name="parking" type="checkbox" value="parking" /> Parking disponible</label>
+                    </div>
+                    <div class="checkbox" style="margin-left:10px">
+                        <label><input name="tv" type="checkbox" value="tv" /> La chambre dispose d'un poste de télévision</label>
+                    </div>
+                    <div class="checkbox" style="margin-left:10px">
+                        <label><input name="hairDryer" type="checkbox" value="hairDryer" /> La chambre dispose d'un sèche-cheveux</label>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <!-- Bouton de la recherche standard (au clic, lance le script stars.total.js) -->
+            <button name="search" onclick="change()" type="submit" class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="right" title="Si vous utilisez la recherche avancée, les critères non cochés seront considérés comme non obligatoires !" style="background-color:#7B0304; border-color:#7B0304" disabled>Recherchez</button>
+        </form>
+    </div>
+</div>
+
+<!-- Eléments à créer pour chaque hôtel retourné -->
+@foreach (var item in Model)
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <!-- Bloc pour le nom, la catégorie et la localisation de l'hôtel -->
+            <div class="container">
+                <text style="font-size:32px; color:#006dcc">@Html.DisplayFor(modelItem => item.Name) </text>
+                <text name="categoryHotel" style="font-size:32px; color:gold">@Html.DisplayFor(modelItem => item.Category)</text>
+                <text style="font-size:16px; font-style:italic"> à @Html.DisplayFor(modelItem => item.Location)</text>
+            </div>
+            <div class="row">
+                <div class="col-md-5 col-sm-5 col-xs-5">
+
+                    <!-- Partie concernant le carousel de toutes les photos de l'hôtel -->
+                    <div id="@("picsCarousel"+item.IdHotel)" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            @for (int i = 0; i < item.PicturesUrls.Count(); i++)
+                            {
+                                if (i == 0)
+                                {
+                                    <li data-target="#@("picsCarousel"+item.IdHotel)" data-slide-to="0" class="active"></li>
+                                }
+                                else
+                                {
+                                    <li data-target="#@("picsCarousel"+item.IdHotel)" data-slide-to="@i"></li>
+                                }
+                            }
+                        </ol>
+
+                        <!-- La hauteur des images est fixée, afin que le carousel ne s'allonge pas lorsqu'elles défilent -->
+                        <div class="carousel-inner">
+                            @for (int j = 0; j < item.PicturesUrls.Count(); j++)
+                            {
+                                if (j == 0)
+                                {
+                                    <div class="item active">
+                                        <img class="img-responsive" style="max-height:290px; width:auto; margin:auto" src="@item.PicturesUrls[j]" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="item">
+                                        <img class="img-responsive" style="max-height:290px; width:auto; margin:auto" src="@item.PicturesUrls[j]" />
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <a class="left carousel-control" href="#@("picsCarousel"+item.IdHotel)" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#@("picsCarousel"+item.IdHotel)" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-7 col-sm-7">
+
+                    <!-- Partie concernant la description de l'hôtel, peut être déroulée pour en voir plus -->
+                    <text name="descriptionHotel" style="text-align:justify">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </text>
+                    <div class="collapse" id="@Html.DisplayFor(modelItem => item.IdHotel)">
+                        <text name="descriptionPart" style="text-align:justify">Changed</text>
+                    </div>
+                    <button type="button" class="btn btn-link pull-right" data-toggle="collapse" data-target="#@Html.DisplayFor(modelItem => item.IdHotel)" style="color:#7B0304">Voir plus...</button>
+                    <br /><br />
+
+                    <!-- Bloc de création du popover des détails -->
+                    <a href="#" class="btn btn-link pull-right" data-placement="right" rel="popover" data-popover-content="#Popover-@Html.DisplayFor(modelItem => item.IdHotel)" style="color:#7B0304">Détails</a>
+                    <div id="Popover-@Html.DisplayFor(modelItem => item.IdHotel)" class="hide" style="text-align:center">
+                        @Html.DisplayFor(modelItem => item.HasWifi) Wi-Fi<br />
+                        @Html.DisplayFor(modelItem => item.HasParking) Parking<br />
+                        <span class="glyphicon glyphicon-earphone"></span> @Html.DisplayFor(modelItem => item.Phone)<br />
+                        <span class="glyphicon glyphicon-envelope"></span> @Html.DisplayFor(modelItem => item.Email)<br />
+                        @Html.DisplayFor(modelItem => item.Website)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<!-- Lorsque chaque hôtel a été créé, il faut changer les numéros des catégories en étoiles -->
+@Scripts.Render("~/Scripts/categories.js")
+<!-- De même pour chaque hôtel, on modifie les parties des descriptions -->
+@Scripts.Render("~/Scripts/descriptions.home.js")
+<!-- Ajout de l'utilisation du script pour faire fonctionner le popover des détails -->
+@Scripts.Render("~/Scripts/details.popover.js")

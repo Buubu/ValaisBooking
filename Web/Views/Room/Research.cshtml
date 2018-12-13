@@ -1,0 +1,412 @@
+﻿@model IEnumerable<Web.ViewModels.HotelsWithRoomsVM>
+
+<!-- Page de l'affichage des résultats de la recherche -->
+@{
+    ViewBag.Title = "Recherche";
+}
+
+
+<!-- Création du titre affiché sur la page -->
+<div class="panel panel-default" style="margin-top:20px; border:none">
+    <div class="panel panel-heading" style="background-color:#7B0304">
+        <h1 style="color:white">Résultats de votre recherche</h1>
+    </div>
+</div>
+
+<!-- En fonction du contenu de la liste retournée, affichage des résultats ou d'un label de recherche infructueuse -->
+@if (Model.Count() == 0)
+{
+    <!-- Création du label en cas de recherche infructueuse -->
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-2" style="text-align:center; vertical-align:central">
+                    <span class="glyphicon glyphicon-warning-sign" style="font-size:32px; color:red"></span>
+                </div>
+                <div class="col-md-10" style="text-align:justify; font-size:18px">
+                    <text>Nous sommes navrés, mais malheureusement, aucune de nos chambres disponibles ne correspond à vos souhaits. 
+                    Nous vous invitons à modifier vos critères de recherche et réessayer.</text><br /><br />
+
+                    <div class="row">
+                        <div class="col-md-9"></div>
+                        <div class="col-md-3">
+                            <text>L'équipe Valais Booking</text>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br /><br />
+    <div class="row">
+        <div class="col-md-12">
+
+            <!-- Ajout d'un bouton permettant à l'utilisateur de modifier ses critères de recherche -->
+            <!-- Le bouton effectue un retour un arrière et ne recharge pas l'accueil complètement (les informations saisies sont toujours présentes)-->
+            <button type="button" class="btn btn-primary pull-right" style="background-color:#7B0304; border-color:#7B0304" onclick="history.go(-1)">Modifiez vos critères de recherche</button>
+        </div>
+    </div>
+}
+else
+{
+    <!-- Sinon, éléments à créer pour chaque hôtel retourné -->
+    foreach (var item in Model)
+    {
+
+        <!-- Chaque hôtel dispose de son propre formulaire pour la réservation -->
+        <form action="@Url.Action("Confirmation", "Reservation")" method="post">
+            @if (item.AvailableRooms.Count() != 0)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                        <!-- Bloc pour le nom, la catégorie et la localisation de l'hôtel -->
+                        <div class="container">
+                            <text style="font-size:32px; color:#006dcc">@Html.DisplayFor(modelItem => item.Name) </text>
+                            <text name="categoryHotel" style="font-size:32px; color:gold">@Html.DisplayFor(modelItem => item.Category)</text>
+                            <text style="font-size:16px; font-style:italic"> à @Html.DisplayFor(modelItem => item.Location)</text>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4 col-xs-4">
+
+                                <!-- Partie concernant le carousel de toutes les photos de l'hôtel -->
+                                <div id="@("picsCarousel"+item.IdHotel)" class="carousel slide" data-ride="carousel">
+                                    <ol class="carousel-indicators">
+                                        @for (int i = 0; i < item.PicturesUrls.Count(); i++)
+                                        {
+                                            if (i == 0)
+                                            {
+                                                <li data-target="#@("picsCarousel"+item.IdHotel)" data-slide-to="0" class="active"></li>
+                                            }
+                                            else
+                                            {
+                                                <li data-target="#@("picsCarousel"+item.IdHotel)" data-slide-to="@i"></li>
+                                            }
+                                        }
+                                    </ol>
+
+                                    <!-- La hauteur des photos est fixée, afin que le carousel ne s'allonge pas -->
+                                    <div class="carousel-inner">
+                                        @for (int j = 0; j < item.PicturesUrls.Count(); j++)
+                                        {
+                                            if (j == 0)
+                                            {
+                                                <div class="item active">
+                                                    <img class="img-responsive" style="max-height:230px; width:auto; margin:auto" src="@item.PicturesUrls[j]" />
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="item">
+                                                    <img class="img-responsive" style="max-height:230px; width:auto; margin:auto" src="@item.PicturesUrls[j]" />
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                    <a class="left carousel-control" href="#@("picsCarousel"+item.IdHotel)" data-slide="prev">
+                                        <span class="glyphicon glyphicon-chevron-left"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="right carousel-control" href="#@("picsCarousel"+item.IdHotel)" data-slide="next">
+                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-8">
+
+                                <!-- Partie concernant la description de l'hôtel, peut être déroulée pour en voir plus -->
+                                <text name="descriptionHotel" style="text-align:justify">
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </text>
+                                <div class="collapse" id="@Html.DisplayFor(modelItem => item.IdHotel)">
+                                    <text name="descriptionPart" style="text-align:justify">Changed</text>
+                                </div>
+                                <button type="button" class="btn btn-link pull-right" data-toggle="collapse" data-target="#@Html.DisplayFor(modelItem => item.IdHotel)" style="color:#7B0304">Voir plus...</button>
+                                <br /><br />
+                            </div>
+                            <div class="col-md-2">
+
+                                <!-- Bloc de création du popover des détails -->
+                                <a href="#" class="btn btn-link pull-right" data-placement="bottom" rel="popover" data-popover-content="#Popover-@Html.DisplayFor(modelItem => item.IdHotel)" style="color:#7B0304">Détails de l'hôtel</a>
+                                <div id="Popover-@Html.DisplayFor(modelItem => item.IdHotel)" class="hide" style="text-align:center">
+                                    @Html.DisplayFor(modelItem => item.HasWifi) Wi-Fi<br />
+                                    @Html.DisplayFor(modelItem => item.HasParking) Parking<br />
+                                    <span class="glyphicon glyphicon-earphone"></span> @Html.DisplayFor(modelItem => item.Phone)<br />
+                                    <span class="glyphicon glyphicon-envelope"></span> @Html.DisplayFor(modelItem => item.Email)<br />
+                                    @Html.DisplayFor(modelItem => item.Website)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-6">
+
+                                <!-- Bloc précisant le taux d'occupation moyen de l'hôtel et le nombre de chambres disponibles -->
+                                @if (item.Occupation > 70)
+                                {
+                                    <input name="increase" class="hidden" value="true" />
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-body" style="background-color:#FDF8E4; font-size:13px; font-weight:bold">
+                                            <div class="col-md-7">
+                                                <text>Occupation à cette période : </text><text>@item.Occupation</text> %
+                                            </div>
+                                            <div class="col-md-5">
+                                                @if (item.OccupiedRooms == null)
+                                                {
+                                                    <text>0 / @item.Rooms.Count() chambres réservées</text>
+                                                }
+                                                else
+                                                {
+                                                    <text>@item.OccupiedRooms.Count() / @item.Rooms.Count() chambres réservées</text>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input name="increase" class="hidden" value="false" />
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-body" style="background-color:#CCFFCC; font-size:13px; font-weight:bold">
+                                            <div class="col-md-7">
+                                                <text>Occupation à cette période : </text><text>@item.Occupation</text> %
+                                            </div>
+                                            <div class="col-md-5">
+                                                @if (item.OccupiedRooms == null)
+                                                {
+                                                    <text>0 / @item.Rooms.Count() chambres réservées</text>
+                                                }
+                                                else
+                                                {
+                                                    <text>@item.OccupiedRooms.Count() / @item.Rooms.Count() chambres réservées</text>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <!-- Bloc affichant le prix moyen des chambres de l'hôtel -->
+                            <div class="col-md-2">
+                                <div class="panel panel-default">
+                                    <div class="panel-body" style="text-align:center; font-weight:bold; font-size:18px; background-color:#CCE6FF">
+                                        Prix moyen<br />
+
+                                        @if (item.Occupation > 70)
+                                        {
+                                            <text>CHF @((item.AveragePrice*Convert.ToInt16(Session["duration"]))*120 /100).-</text>
+                                        }
+                                        else
+                                        {
+                                            <text>CHF @(item.AveragePrice * Convert.ToInt16(Session["duration"])).-</text>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10">
+
+                                <!-- Bouton permettant de dérouler la liste des chambres disponibles -->
+                                <button type="button" class="btn btn-link pull-right" data-toggle="collapse" data-target="#@("listRooms"+item.IdHotel)" style="color:#7B0304">Voir les chambres correspondant à votre recherche...</button>
+                                @*<br />*@
+                            </div>
+                            <div class="col-md-2">
+
+                                <!-- Bouton permettant de valider la réservation (chaque hôtel possède son propre submit) -->
+                                <!-- Cela ne permet donc pas à l'utilisateur de sélectionner des chambres de plusieurs hôtels -->
+                                <button class="btn btn-primary pull-right" type="submit" style="background-color:#7B0304; border-color:#7B0304" disabled>Réservez !</button>
+                            </div>
+                        </div>
+
+                        <div class="row collapse" id="@("listRooms"+item.IdHotel)">
+                            <div class="col-md-12">
+                                <br /><br />
+
+                                <!-- Bloc de création de la liste des chambres de chaque hôtel -->
+                                <table class="table table-bordered">
+                                    @foreach (var room in item.Rooms)
+                                    {
+
+                                    <!-- Le test effectué permet de déterminer si la chambre est disponible ou non, afin d'en gérer l'affichage -->
+                                        if (item.AvailableRooms.Any(element => element.IdRoom == room.IdRoom))
+                                        {
+                                            <tr>
+                                                <th><button type="button" class="btn btn-link" data-toggle="modal" data-target="@("#modal"+room.IdRoom)" style="color:#7B0304">Chambre numéro @room.Number</button></th>
+
+                                                @if (room.Type == 1)
+                                                {
+                                                    <td style="text-align:center"><span class="glyphicon glyphicon-user"></span></td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="text-align:center"><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-user"></span></td>
+                                                }
+
+                                                @if (room.HasTV.Equals(true))
+                                                {
+                                                    <td style="color:limegreen"><span class="glyphicon glyphicon-ok-circle"></span> Poste de télévision</td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="color:orangered"><span class="glyphicon glyphicon-remove-circle"></span> Poste de télévision</td>
+                                                }
+
+                                                @if (room.HasHairDryer.Equals(true))
+                                                {
+                                                    <td style="color:limegreen"><span class="glyphicon glyphicon-ok-circle"></span> Sèche-cheveux</td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="color:orangered"><span class="glyphicon glyphicon-remove-circle"></span> Sèche-cheveux</td>
+                                                }
+
+                                                @if (item.Occupation > 70)
+                                                {
+                                                    <td style="text-align:center">CHF @((room.Price * Convert.ToInt16(Session["duration"])) * 120 / 100)</td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="text-align:center">CHF @(room.Price * Convert.ToInt16(Session["duration"]))</td>
+                                                }
+
+                                                <td style="text-align:center"><input class="myCheck" name="rooms_list" type="checkbox" value="@room.IdRoom" /></td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr class="danger" style="color:gray; font-style:italic">
+                                                <td>Chambre numéro @room.Number</td>
+
+                                                @if (room.Type == 1)
+                                                {
+                                                    <td style="text-align:center"><span class="glyphicon glyphicon-user"></span></td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="text-align:center"><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-user"></span></td>
+                                                }
+
+                                                @if (room.HasTV.Equals(true))
+                                                {
+                                                    <td><span class="glyphicon glyphicon-ok-circle"></span> Poste de télévision</td>
+                                                }
+                                                else
+                                                {
+                                                    <td><span class="glyphicon glyphicon-remove-circle"></span> Poste de télévision</td>
+                                                }
+
+                                                @if (room.HasHairDryer.Equals(true))
+                                                {
+                                                    <td><span class="glyphicon glyphicon-ok-circle"></span> Sèche-cheveux</td>
+                                                }
+                                                else
+                                                {
+                                                    <td><span class="glyphicon glyphicon-remove-circle"></span> Sèche-cheveux</td>
+                                                }
+
+                                                @if (item.Occupation > 70)
+                                                {
+                                                    <td style="text-align:center">CHF @((room.Price * Convert.ToInt16(Session["duration"])) * 120 / 100)</td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="text-align:center">CHF @(room.Price * Convert.ToInt16(Session["duration"]))</td>
+                                                }
+
+                                                <td style="text-align:center"><input type="checkbox" disabled /></td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+
+                                <!-- Création du modal pour chaque chambre disponible -->
+                                @foreach (var room in item.AvailableRooms)
+                                {
+                                    <div class="modal fade" id="@("modal"+room.IdRoom)" role="dialog">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" style="color:red">&times;</button>
+                                                    <text class="modal-title" style="font-size:28px; color:#006dcc">Chambre numéro @room.Number</text>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+
+                                                        <!-- Dans le modal, la partie de gauche est destinée aux photos -->
+                                                        <div class="col-md-6">
+                                                            <div id="@("picsRoom"+room.IdRoom)" class="carousel slide" date-ride="carousel">
+                                                                <ol class="carousel-indicators">
+                                                                    @for (int i = 0; i < room.PicturesUrls.Count(); i++)
+                                                                    {
+                                                                        if (i == 0)
+                                                                        {
+                                                                            <li data-target="#@("picsRoom"+room.IdRoom)" data-slide-to="0" class="active"></li>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <li data-target="#@("picsRoom"+room.IdRoom)" data-slide-to="@i"></li>
+                                                                        }
+                                                                    }
+                                                                </ol>
+
+                                                                <!-- La hauteur des photos est fixée, afin que le carousel ne s'allonge pas -->
+                                                                <div class="carousel-inner">
+                                                                    @for (int j = 0; j < room.PicturesUrls.Count(); j++)
+                                                                    {
+                                                                        if (j == 0)
+                                                                        {
+                                                                            <div class="item active">
+                                                                                <img class="img-responsive" style="max-height:278px; width:auto; margin:auto" src="@room.PicturesUrls[j]" />
+                                                                            </div>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <div class="item">
+                                                                                <img class="img-responsive" style="max-height:278px; width:auto; margin:auto" src="@room.PicturesUrls[j]" />
+                                                                            </div>
+                                                                        }
+                                                                    }
+                                                                </div>
+                                                                <a class="left carousel-control" href="#@("picsRoom"+room.IdRoom)" data-slide="prev">
+                                                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                                                    <span class="sr-only">Previous</span>
+                                                                </a>
+                                                                <a class="right carousel-control" href="#@("picsRoom"+room.IdRoom)" data-slide="next">
+                                                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                                                    <span class="sr-only">Next</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Et la partie de droite est réservée à la description de la chambre -->
+                                                        <div class="col-md-6" style="text-align:justify; font-size:16px">
+                                                            @room.Description.Replace("<p>", "").Replace("</p>", "")
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </form>
+    }
+}
+
+<!-- Lorsque chaque hôtel a été créé, il faut changer les numéros des catégories en étoiles -->
+@Scripts.Render("~/Scripts/categories.js")
+<!-- De même pour chaque hôtel, on modifie les parties des descriptions -->
+@Scripts.Render("~/Scripts/descriptions.home.js")
+<!-- Ajout de l'utilisation du script pour faire fonctionner le popover des détails -->
+@Scripts.Render("~/Scripts/details.popover.js")
+<!-- Il faut qu'au moins une checkbox soit sélectionnée pour débloquer le bouton de réservation -->
+@Scripts.Render("~/Scripts/check.checkboxes.js")

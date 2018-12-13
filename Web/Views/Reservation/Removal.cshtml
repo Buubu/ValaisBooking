@@ -1,0 +1,88 @@
+﻿@model Web.ViewModels.ReservationVM
+
+<!-- Page de la confirmation de la suppression de réservation en ligne -->
+@{
+    ViewBag.Title = "Removal";
+}
+
+
+<br /><br />
+<div class="row">
+
+    <!-- Création de plusieurs colonnes, afin que l'encadré ne soit pas trop "étalé" -->
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+
+        <!-- Si la vérification de l'existence de la réservation a retourné vrai, alors on affiche le succès de la suppression -->
+        @if (ViewData["login"].Equals(true))
+        {
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="row">
+
+                        <!-- La partie de gauche contient un sigle informatif -->
+                        <div class="col-md-4" style="text-align:center">
+                            <span class="glyphicon glyphicon-info-sign" style="font-size:72px; color:limegreen"></span>
+                        </div>
+
+                        <!-- La partie de droite contient le texte explicatif -->
+                        <div class="col-md-8" style="text-align:justify; font-size:18px">
+                            <text>Chère cliente, cher client,</text><br /><br />
+                            <text>Nous vous informons que la réservation inscrite sous le numéro @Model.IdReservation, enregistrée au nom de 
+                            @Model.ClientFirstname @Model.ClientLastname, a été supprimée avec succès de nos registres.</text><br /><br />
+                            <text>Nous espérons toutefois que nos services ont répondu à vos attentes et que nous aurons le plaisir de 
+                            vous revoir prochainement pour un nouveau séjour en Valais !</text><br /><br /><br />
+
+                            <!-- Création d'une nouvelle ligne pour afficher correctement la signature -->
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    <text>L'équipe Valais Booking</text>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <!-- Si la vérification n'existe pas dans la table, alors on affiche un message d'erreur -->
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <div class="row">
+
+                        <!-- La partie de gauche contient un sigle de warning -->
+                        <div class="col-md-4" style="text-align:center; vertical-align:central">
+                            <span class="glyphicon glyphicon-warning-sign" style="font-size:72px; color:red"></span>
+                        </div>
+
+                        <!-- La partie de droite contient le texte explicatif -->
+                        <div class="col-md-8" style="text-align:justify; font-size:18px">
+                            <text>Chère cliente, cher client,</text><br /><br />
+                            <text>Malheureusement, nous sommes au regret de vous annoncer qu'aucune réservation portant le 
+                            numéro @Model.IdReservation, enregistrée au nom de @Model.ClientFirstname @Model.ClientLastname, n'est 
+                            inscrite dans nos registres.</text><br /><br />
+                            <text>Nous vous prions de vérifier les informations saisies et de réessayer ultérieurement.</text><br /><br />
+                            <text>Si le problème persiste, nous vous serions reconnaissants d'en informer nos services dans 
+                            les plus brefs délais.</text><br /><br /><br />
+
+                            <!-- Création d'une nouvelle ligne pour afficher correctement la signature -->
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    <text>L'équipe Valais Booking</text>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <br /><br />
+
+        <!-- Création d'un bouton qui redirige l'utilisateur sur la page d'accueil de l'application -->
+        <button type="button" class="btn btn-primary pull-right" style="background-color:#7B0304; border-color:#7B0304" onclick="location.href='@Url.Action("Index", "Home")'">Retournez à la page d'accueil</button>
+    </div>
+    <div class="col-md-2"></div>
+</div>
