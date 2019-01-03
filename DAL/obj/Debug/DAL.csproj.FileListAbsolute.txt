@@ -6,3 +6,12 @@ C:\Users\uadmin\source\repos\Bubu_Project\DAL\obj\Debug\DAL.csprojResolveAssembl
 C:\Users\uadmin\source\repos\Bubu_Project\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
 C:\Users\uadmin\source\repos\Bubu_Project\DAL\obj\Debug\DAL.dll
 C:\Users\uadmin\source\repos\Bubu_Project\DAL\obj\Debug\DAL.pdb
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DAL\bin\Debug\DAL.dll
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DAL\bin\Debug\DAL.pdb
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DAL\bin\Debug\DTO.dll
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DAL\bin\Debug\DTO.pdb
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DAL\obj\Debug\DAL.csproj.CopyComplete
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DAL\obj\Debug\DAL.dll
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DAL\obj\Debug\DAL.pdb

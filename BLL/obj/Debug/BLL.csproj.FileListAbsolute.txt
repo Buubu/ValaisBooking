@@ -8,3 +8,7 @@ C:\Users\uadmin\source\repos\Bubu_Project\BLL\obj\Debug\BLL.csprojResolveAssembl
 C:\Users\uadmin\source\repos\Bubu_Project\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
 C:\Users\uadmin\source\repos\Bubu_Project\BLL\obj\Debug\BLL.dll
 C:\Users\uadmin\source\repos\Bubu_Project\BLL\obj\Debug\BLL.pdb
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\obj\Debug\BLL.csprojAssemblyReference.cache
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\obj\Debug\BLL.dll
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\obj\Debug\BLL.pdb
