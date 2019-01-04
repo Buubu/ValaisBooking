@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-    class Reservation
+    public class Reservation
     {
         public int IdReservation { get; set; }
         public DateTime DateReservation { get; set; }
