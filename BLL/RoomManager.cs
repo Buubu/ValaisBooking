@@ -12,8 +12,7 @@ namespace BLL
 {
     public class RoomManager
     {
-        // À MODIFIER EN FONCTION DE SON PROPRE LOCALHOST
-        static string localhost = "http://localhost:50021/";
+        static string localhost = "http://localhost:1787/";
 
 
         // Appelle la requête qui récupère la liste de toutes les chambres d'un hôtel (en fonction de son identifiant en paramètre)
@@ -34,7 +33,9 @@ namespace BLL
         // GET: api/Hotel/{idHotel}/Availability/{dateStart}/{dateEnd}
         public static List<Room> GetSearchedRoomsSimple(int idHotel, DateTime dateStart, DateTime dateEnd)
         {
-            string url = localhost + "api/Hotel/" + idHotel + "/Availability/" + dateStart + "/" + dateEnd;
+            string din = dateStart.ToString("yyyy-MM-dd");
+            string dout = dateEnd.ToString("yyyy-MM-dd");
+            string url = localhost + "api/Hotel/" + idHotel + "/Availability/" + din + "/" + dout;
 
             using (HttpClient http = new HttpClient())
             {
@@ -105,9 +106,12 @@ namespace BLL
 
         // Appelle la requête qui récupère la liste de toutes les chambres qui sont occupées à une certaine période
         // GET: api/Hotel/{idHotel}/occupied/{dateStart}/{dateEnd}
+        // ATTENTION, format de date en "yyyy-mm-dd"
         public static List<Room> GetOccupiedRooms(int idHotel, DateTime dateStart, DateTime dateEnd)
         {
-            string url = localhost + "api/Hotel/" + idHotel + "/occupied/" + dateStart + "/" + dateEnd;
+            string din = dateStart.ToString("yyyy-MM-dd");
+            string dout = dateEnd.ToString("yyyy-MM-dd");
+            string url = localhost + "api/Hotel/" + idHotel + "/occupied/" + din + "/" + dout;
 
             using (HttpClient http = new HttpClient())
             {

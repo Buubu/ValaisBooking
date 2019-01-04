@@ -66,9 +66,8 @@ namespace Web.Controllers
                 {
                     // Ici, je récupère toutes les photos liées à un hôtel
                     // La fonction DISTINCT est utilisée puisque beaucoup d'URL dans la BDD sont identiques
-                    IEnumerable<Picture> pics = PictureManager.GetAllPictures(item.IdHotel);
-                    List<string> urls = pics.Select(pic => pic.Url).Distinct().ToList();
-
+                    List<string> urls = PictureManager.GetAllPictures(item.IdHotel);
+                    
 
                     // Je récupère toutes les chambres qui sont liées à l'hôtel
                     List<Room> rooms = RoomManager.GetAllRooms(item.IdHotel);

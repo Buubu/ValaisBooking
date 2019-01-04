@@ -12,8 +12,7 @@ namespace BLL
 {
     public class ReservationManager
     {
-        // À MODIFIER EN FONCTION DE SON PROPRE LOCALHOST
-        static string localhost = "http://localhost:50021/";
+        static string localhost = "http://localhost:1787/";
 
 
         // Appelle la requête qui permet d'ajouter une réservation à la table

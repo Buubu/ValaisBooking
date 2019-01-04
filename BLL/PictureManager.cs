@@ -12,20 +12,19 @@ namespace BLL
 {
     public class PictureManager
     {
-        // À MODIFIER EN FONCTION DE SON PROPRE LOCALHOST
-        static string localhost = "http://localhost:50021/";
+        static string localhost = "http://localhost:1787/";
 
 
         // Appelle la requête qui récupère une liste de toutes les images correspondant à un hôtel (identifiant en paramètre)
         // GET: api/Hotel/{id}/Pictures
-        public static List<Picture> GetAllPictures(int idHotel)
+        public static List<string> GetAllPictures(int idHotel)
         {
             string url = localhost + "api/Hotel/" + idHotel + "/Pictures";
 
             using (HttpClient http = new HttpClient())
             {
                 Task<String> response = http.GetStringAsync(url);
-                return JsonConvert.DeserializeObject<List<Picture>>(response.Result);
+                return JsonConvert.DeserializeObject<List<string>>(response.Result);
             }
         }
 
