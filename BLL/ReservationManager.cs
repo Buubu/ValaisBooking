@@ -27,6 +27,8 @@ namespace BLL
             res.DateEnd = dateEnd;
             res.TotalPrice = totalPrice;
 
+            res.IdReservation = 1;
+
             string url = localhost + "api/Reservations";
             using (HttpClient http = new HttpClient())
             {
@@ -47,7 +49,16 @@ namespace BLL
             using (HttpClient http = new HttpClient())
             {
                 Task<String> response = http.GetStringAsync(url);
-                return JsonConvert.DeserializeObject<Boolean>(response.Result);
+                string result = JsonConvert.DeserializeObject<string>(response.Result);
+
+                if (result.Equals("true"))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
