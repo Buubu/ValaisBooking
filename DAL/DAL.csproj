@@ -41,12 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HotelDB.cs" />
     <Compile Include="PictureDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReservationDB.cs" />
     <Compile Include="ReservationDetailsDB.cs" />
-    <Compile Include="RoomDB.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DTO\DTO.csproj">
