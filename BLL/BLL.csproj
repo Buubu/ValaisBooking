@@ -51,10 +51,6 @@
     <Compile Include="RoomManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DAL\DAL.csproj">
-      <Project>{0925fe13-8406-4244-bb4a-f6035e274503}</Project>
-      <Name>DAL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DTO\DTO.csproj">
       <Project>{5435d048-d47e-4dee-9ac6-cadc18ae46d5}</Project>
       <Name>DTO</Name>

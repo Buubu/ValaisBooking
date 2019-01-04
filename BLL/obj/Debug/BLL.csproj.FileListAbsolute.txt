@@ -12,3 +12,11 @@ C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\obj\Debug\BLL.cs
 C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
 C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\obj\Debug\BLL.dll
 C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\obj\Debug\BLL.pdb
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\bin\Debug\BLL.dll
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\bin\Debug\BLL.pdb
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\bin\Debug\DTO.dll
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\bin\Debug\DTO.pdb
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\BLL\obj\Debug\BLL.csproj.CopyComplete

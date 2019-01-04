@@ -10,3 +10,7 @@ C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DTO\obj\Debug\DTO.cs
 C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DTO\obj\Debug\DTO.csproj.CoreCompileInputs.cache
 C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DTO\obj\Debug\DTO.dll
 C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DTO\obj\Debug\DTO.pdb
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DTO\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DTO\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DTO\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Montaine\Desktop\Cours HES-SO\GitHub\ValaisBooking\DTO\obj\Debug\DTO.csproj.CopyComplete
