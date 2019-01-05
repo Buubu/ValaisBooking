@@ -31,6 +31,7 @@ namespace BLL
                 string detail = JsonConvert.SerializeObject(RD);
                 StringContent frame = new StringContent(detail, Encoding.UTF8, "Application/json");
                 Task<HttpResponseMessage> response = http.PostAsync(url, frame);
+                response.Wait();
             }
         }
 
