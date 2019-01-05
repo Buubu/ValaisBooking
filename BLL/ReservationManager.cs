@@ -72,6 +72,7 @@ namespace BLL
             using (HttpClient http = new HttpClient())
             {
                 Task<HttpResponseMessage> response = http.DeleteAsync(url);
+                response.Wait();
             }
         }
     }

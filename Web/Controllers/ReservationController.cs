@@ -109,7 +109,6 @@ namespace Web.Controllers
             if (login.Equals(true))
             {
                 ReservationManager.RemoveReservation(identity);
-                ReservationDetailsManager.RemoveReservationDetails(identity);
             }
 
             // Je passe ensuite la valeur du booléen login à la vue, afin d'afficher le bon encadré

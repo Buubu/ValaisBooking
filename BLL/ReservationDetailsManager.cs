@@ -34,19 +34,5 @@ namespace BLL
                 response.Wait();
             }
         }
-
-
-        // Appelle la requête qui permet de supprimer les détails d'une réservation (supprime toutes les lignes)
-        // DELETE: api/ReservationDetails/{idReservation}
-        public static void RemoveReservationDetails(int idReservation)
-        {
-            string url = localhost + "api/ReservationDetails/" + idReservation;
-
-            using (HttpClient http = new HttpClient())
-            {
-                Task<HttpResponseMessage> response = http.DeleteAsync(url);
-                response.Wait();
-            }
-        }
     }
 }
