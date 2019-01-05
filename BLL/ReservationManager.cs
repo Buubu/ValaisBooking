@@ -33,17 +33,10 @@ namespace BLL
                 string reservation = JsonConvert.SerializeObject(res);
                 StringContent frame = new StringContent(reservation, Encoding.UTF8, "Application/json");
                 Task<HttpResponseMessage> response = http.PostAsync(url, frame);
-                //Task<String> result = response.Result.Content.ReadAsStringAsync();
-                //string content = JsonConvert.DeserializeObject<string>(result.Result);
-
-                //return 1;
-
-
-                //string result = JsonConvert.DeserializeObject<string>(response.Result);
-
+                Task<String> result = response.Result.Content.ReadAsStringAsync();
+                res = JsonConvert.DeserializeObject<Reservation>(result.Result);
+                return res.IdReservation;
             }
-
-            return res.IdReservation;
         }
 
 
