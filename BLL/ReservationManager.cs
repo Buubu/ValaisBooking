@@ -27,16 +27,23 @@ namespace BLL
             res.DateEnd = dateEnd;
             res.TotalPrice = totalPrice;
 
-            res.IdReservation = 1;
-
             string url = localhost + "api/Reservations";
             using (HttpClient http = new HttpClient())
             {
                 string reservation = JsonConvert.SerializeObject(res);
                 StringContent frame = new StringContent(reservation, Encoding.UTF8, "Application/json");
                 Task<HttpResponseMessage> response = http.PostAsync(url, frame);
-                return response.Id;
+                //Task<String> result = response.Result.Content.ReadAsStringAsync();
+                //string content = JsonConvert.DeserializeObject<string>(result.Result);
+
+                //return 1;
+
+
+                //string result = JsonConvert.DeserializeObject<string>(response.Result);
+
             }
+
+            return res.IdReservation;
         }
 
 
